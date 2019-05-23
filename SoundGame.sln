@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoundGame", "SoundGame.vcxproj", "{068750C4-3E07-4ECB-A281-CF5574A483AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Debug|x64.ActiveCfg = Debug|x64
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Debug|x64.Build.0 = Debug|x64
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Debug|x86.ActiveCfg = Debug|Win32
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Debug|x86.Build.0 = Debug|Win32
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Release|x64.ActiveCfg = Release|x64
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Release|x64.Build.0 = Release|x64
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Release|x86.ActiveCfg = Release|Win32
+		{068750C4-3E07-4ECB-A281-CF5574A483AC}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {568BDB18-17F5-45B3-9095-E5881E40E7B2}
+	EndGlobalSection
+EndGlobal
