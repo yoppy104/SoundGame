@@ -16,13 +16,18 @@ private:
 	//実際にはBPMによる重みづけをする
 	int appearFrame_m;
 
+	//ノーツの画像
+	int image;
+
 public:
 	//SINGLE用
-	Notes();
+	Notes(int frame);
 	//HOLD用
-	Notes(int hold_time);
+	Notes(int hold_time, int frame);
 
 	Type getType()        const { return type_m; }
 	int  getHoldTime()    const { return holdTime_m; }
 	int  getAppearFrame() const { return appearFrame_m; }
+
+	void drawNotes(int x, int y);
 };

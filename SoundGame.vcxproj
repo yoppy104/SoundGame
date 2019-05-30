@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="InputKey.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Notes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputKey.h" />
