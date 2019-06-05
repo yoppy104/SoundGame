@@ -19,6 +19,13 @@ Notes::Notes(int hold_time, int frame):
 	image = LoadGraph("image\\hold_notes.png");
 }
 
-void Notes::drawNotes(int x, int y) {
-	DrawGraph(x, y, image, TRUE);
+void Notes::drawNotes(int x, int y, bool is_aside) {
+	//DrawGraph(x, y, image, TRUE);
+	//DrawFormatString(x, y, GetColor(0, 100, 200), "Å©");
+	if (is_aside) {
+		DrawOval(x, y, 15, 5, GetColor(0, 100, 200), true);
+	}
+	else {
+		DrawOval(x, y, 5, 15, GetColor(0, 100, 200), true);
+	}
 }

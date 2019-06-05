@@ -29,5 +29,5 @@ public:
 	int  getHoldTime()    const { return holdTime_m; }
 	int  getAppearFrame() const { return appearFrame_m; }
 
-	void drawNotes(int x, int y);
+	void drawNotes(int x, int y, bool is_aside = true);
 };
