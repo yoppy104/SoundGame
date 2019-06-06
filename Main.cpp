@@ -37,6 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	right_side_notes.push_back(std::make_unique<Notes>(Notes(60)));
 	left_side_notes.push_back(std::make_unique<Notes>(Notes(90)));
 	top_side_notes.push_back(std::make_unique<Notes>(Notes(60)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(10, 80)));
 
 	//現在フレーム
 	int current_frame = 0;
@@ -47,6 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//入力系を管理するクラス
 	std::unique_ptr<InputKey> inputer(new InputKey());
 
+	//判定を入れておく文字列
 	std::string judge_output_str = "";
 
 	//メインループ
@@ -61,6 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//入力クラスを更新する
 		inputer->update();
 
+		//判定を表示する。
 		DrawFormatString(450, 30, GetColor(255, 255, 255), judge_output_str.c_str());
 
 		//入力していたら、入力時の描画
@@ -81,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		for (auto itr = right_side_notes.begin(); itr != right_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
 				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 10;
-				itr->get()->drawNotes(point_value, CENTER, false);
+				itr->get()->drawNotes(point_value, CENTER, 2);
 			}
 			else {
 				break;
@@ -90,7 +93,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		for (auto itr = left_side_notes.begin(); itr != left_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
 				point_value = (current_frame - itr->get()->getAppearFrame()) * 10;
-				itr->get()->drawNotes(point_value, CENTER, false);
+				itr->get()->drawNotes(point_value, CENTER, 3);
 			}
 			else {
 				break;
@@ -99,7 +102,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		for (auto itr = top_side_notes.begin(); itr != top_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
 				point_value = (current_frame - itr->get()->getAppearFrame()) * 10;
-				itr->get()->drawNotes(CENTER, point_value);
+				itr->get()->drawNotes(CENTER, point_value, 0);
 			}
 			else {
 				break;
@@ -108,7 +111,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		for (auto itr = bottom_side_notes.begin(); itr != bottom_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
 				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 10;
-				itr->get()->drawNotes(CENTER, point_value);
+				itr->get()->drawNotes(CENTER, point_value, 1);
 			}
 			else {
 				break;
@@ -117,25 +120,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		//ノーツが中央に到達していたら、非表示にする。
 		if (!right_side_notes.empty()) {
-			if (right_side_notes.begin()->get()->getAppearFrame() + 25 == current_frame) {
+			auto first_notes = right_side_notes.begin()->get();
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
 				right_side_notes.erase(right_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!left_side_notes.empty()) {
-			if (left_side_notes.begin()->get()->getAppearFrame() + 25 == current_frame) {
+			auto first_notes = left_side_notes.begin()->get();
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
 				left_side_notes.erase(left_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!top_side_notes.empty()) {
-			if (top_side_notes.begin()->get()->getAppearFrame() + 25 == current_frame) {
+			auto first_notes = top_side_notes.begin()->get();
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
 				top_side_notes.erase(top_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!bottom_side_notes.empty()) {
-			if (bottom_side_notes.begin()->get()->getAppearFrame() + 25 == current_frame) {
+			auto first_notes = bottom_side_notes.begin()->get();
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
 				bottom_side_notes.erase(bottom_side_notes.begin());
 				judge_output_str = "miss";
 			}

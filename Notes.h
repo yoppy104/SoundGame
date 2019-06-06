@@ -19,6 +19,10 @@ private:
 	//ノーツの画像
 	int image;
 
+	//ホールド用
+	//ホールド中はノーツを消さない
+	bool is_hold;
+
 public:
 	//SINGLE用
 	Notes(int frame);
@@ -28,6 +32,9 @@ public:
 	Type getType()        const { return type_m; }
 	int  getHoldTime()    const { return holdTime_m; }
 	int  getAppearFrame() const { return appearFrame_m; }
+	bool getIsHold()	  const { return is_hold; }
 
-	void drawNotes(int x, int y, bool is_aside = true);
+	void drawNotes(int x, int y, int is_aside);
+
+	int checkInput(int input_time, int frame);
 };
