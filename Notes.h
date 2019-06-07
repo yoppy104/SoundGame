@@ -16,9 +16,6 @@ private:
 	//実際にはBPMによる重みづけをする
 	int appearFrame_m;
 
-	//ノーツの画像
-	int image;
-
 	//ホールド用
 	//ホールド中はノーツを消さない
 	bool is_hold;

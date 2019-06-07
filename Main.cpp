@@ -7,6 +7,8 @@
 
 const int CENTER = 250;
 
+using Frame = unsigned long long;
+
 void drawCirclePlayerInputLine() {
 	//判定基準場所を描画
 	DrawOval(250, 200, 15, 5, GetColor(255, 255, 255), false);
@@ -23,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
-		return -1;			// エラーが起きたら直ちに終了
+	return -1;			// エラーが起きたら直ちに終了
 	}
 
 	//ノーツの集合体のリスト
@@ -34,13 +36,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//ノーツ群の構成
 	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(100)));
+	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(5, 120)));
+	right_side_notes.push_back(std::make_unique<Notes>(Notes(1, 1)));
 	right_side_notes.push_back(std::make_unique<Notes>(Notes(60)));
-	left_side_notes.push_back(std::make_unique<Notes>(Notes(90)));
-	top_side_notes.push_back(std::make_unique<Notes>(Notes(60)));
-	top_side_notes.push_back(std::make_unique<Notes>(Notes(10, 80)));
+	left_side_notes.push_back(std::make_unique<Notes>(Notes(60)));
+	left_side_notes.push_back(std::make_unique<Notes>(Notes(20, 90)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(10, 20)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(90)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(150)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(155)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(160)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(165)));
+	right_side_notes.push_back(std::make_unique<Notes>(Notes(170)));
+	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(180)));
+	left_side_notes.push_back(std::make_unique<Notes>(Notes(190)));
+
 
 	//現在フレーム
-	int current_frame = 0;
+	Frame current_frame = 0;
 
 	//ノーツを描画する時の中間変数
 	int point_value = 0;
@@ -59,12 +72,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		//ノーツの判定個所の描画
 		drawCirclePlayerInputLine();
-		
+
 		//入力クラスを更新する
 		inputer->update();
 
 		//判定を表示する。
-		DrawFormatString(450, 30, GetColor(255, 255, 255), judge_output_str.c_str());
+		DrawFormatString(400, 30, GetColor(255, 255, 255), judge_output_str.c_str());
 
 		//入力していたら、入力時の描画
 		if (inputer->getPressTimeKey(KEY_INPUT_RIGHT)) {
@@ -83,7 +96,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//ノーツを描画
 		for (auto itr = right_side_notes.begin(); itr != right_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 10;
+				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 5;
 				itr->get()->drawNotes(point_value, CENTER, 2);
 			}
 			else {
@@ -92,7 +105,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		for (auto itr = left_side_notes.begin(); itr != left_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = (current_frame - itr->get()->getAppearFrame()) * 10;
+				point_value = (current_frame - itr->get()->getAppearFrame()) * 5;
 				itr->get()->drawNotes(point_value, CENTER, 3);
 			}
 			else {
@@ -101,7 +114,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		for (auto itr = top_side_notes.begin(); itr != top_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = (current_frame - itr->get()->getAppearFrame()) * 10;
+				point_value = (current_frame - itr->get()->getAppearFrame()) * 5;
 				itr->get()->drawNotes(CENTER, point_value, 0);
 			}
 			else {
@@ -110,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		for (auto itr = bottom_side_notes.begin(); itr != bottom_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 10;
+				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 5;
 				itr->get()->drawNotes(CENTER, point_value, 1);
 			}
 			else {
@@ -118,31 +131,128 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 		}
 
+		//右側ノーツ入力系
+		if (!right_side_notes.empty()) {
+			//押してるかどうかの判定を取得する
+			int checkHit = right_side_notes.begin()->get()->checkInput(inputer->getPressTimeKey(KEY_INPUT_RIGHT), current_frame);
+			//-1は押されていないの意味
+			if (checkHit != -1) {
+				//ホールドされていないノーツで押されたものは削除する
+				if (!right_side_notes.begin()->get()->getIsHold()) {
+					right_side_notes.erase(right_side_notes.begin());
+				}
+				//判定に応じた処理
+				switch (checkHit)
+				{
+				case 0:
+					judge_output_str = "Perfect";
+					break;
+				case 1:
+					judge_output_str = "Great";
+					break;
+				case 2:
+					judge_output_str = "Good";
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		//左側ノーツ入力系
+		if (!left_side_notes.empty()) {
+			int checkHit = left_side_notes.begin()->get()->checkInput(inputer->getPressTimeKey(KEY_INPUT_LEFT), current_frame);
+			if (checkHit != -1) {
+				if (!left_side_notes.begin()->get()->getIsHold()) {
+					left_side_notes.erase(left_side_notes.begin());
+				}
+				switch (checkHit)
+				{
+				case 0:
+					judge_output_str = "Perfect";
+					break;
+				case 1:
+					judge_output_str = "Great";
+					break;
+				case 2:
+					judge_output_str = "Good";
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		//上側ノーツ入力系
+		if (!top_side_notes.empty()) {
+			int checkHit = top_side_notes.begin()->get()->checkInput(inputer->getPressTimeKey(KEY_INPUT_UP), current_frame);
+			if (checkHit != -1) {
+				if (!top_side_notes.begin()->get()->getIsHold()) {
+					top_side_notes.erase(top_side_notes.begin());
+				}
+				switch (checkHit)
+				{
+				case 0:
+					judge_output_str = "Perfect";
+					break;
+				case 1:
+					judge_output_str = "Great";
+					break;
+				case 2:
+					judge_output_str = "Good";
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		//下側ノーツ入力系
+		if (!bottom_side_notes.empty()) {
+			int checkHit = bottom_side_notes.begin()->get()->checkInput(inputer->getPressTimeKey(KEY_INPUT_DOWN), current_frame);
+			if (checkHit != -1) {
+				if (!bottom_side_notes.begin()->get()->getIsHold()) {
+					bottom_side_notes.erase(bottom_side_notes.begin());
+				}
+				switch (checkHit)
+				{
+				case 0:
+					judge_output_str = "Perfect";
+					break;
+				case 1:
+					judge_output_str = "Great";
+					break;
+				case 2:
+					judge_output_str = "Good";
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
 		//ノーツが中央に到達していたら、非表示にする。
 		if (!right_side_notes.empty()) {
 			auto first_notes = right_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
 				right_side_notes.erase(right_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!left_side_notes.empty()) {
 			auto first_notes = left_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
 				left_side_notes.erase(left_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!top_side_notes.empty()) {
 			auto first_notes = top_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
 				top_side_notes.erase(top_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!bottom_side_notes.empty()) {
 			auto first_notes = bottom_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 25 == current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
 				bottom_side_notes.erase(bottom_side_notes.begin());
 				judge_output_str = "miss";
 			}
