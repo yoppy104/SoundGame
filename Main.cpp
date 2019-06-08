@@ -5,7 +5,11 @@
 #include <vector>
 #include <string>
 
-const int CENTER = 250;
+//memo : フレーム数を利用した設計ではうまくいかなかった
+//todo : オブジェクト同士の接触判定を利用した設計に変更するか
+//　　　 フレーム指定の新たなやり方を模索する櫃ようあり
+
+constexpr int CENTER = 250;
 
 using Frame = unsigned long long;
 
@@ -35,21 +39,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::vector<std::unique_ptr<Notes>> bottom_side_notes;
 
 	//ノーツ群の構成
-	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(100)));
 	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(5, 120)));
-	right_side_notes.push_back(std::make_unique<Notes>(Notes(1, 1)));
+	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(200)));
 	right_side_notes.push_back(std::make_unique<Notes>(Notes(60)));
 	left_side_notes.push_back(std::make_unique<Notes>(Notes(60)));
-	left_side_notes.push_back(std::make_unique<Notes>(Notes(20, 90)));
+	left_side_notes.push_back(std::make_unique<Notes>(Notes(20, 150)));
 	top_side_notes.push_back(std::make_unique<Notes>(Notes(10, 20)));
-	top_side_notes.push_back(std::make_unique<Notes>(Notes(90)));
-	top_side_notes.push_back(std::make_unique<Notes>(Notes(150)));
-	top_side_notes.push_back(std::make_unique<Notes>(Notes(155)));
-	top_side_notes.push_back(std::make_unique<Notes>(Notes(160)));
-	top_side_notes.push_back(std::make_unique<Notes>(Notes(165)));
-	right_side_notes.push_back(std::make_unique<Notes>(Notes(170)));
-	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(180)));
-	left_side_notes.push_back(std::make_unique<Notes>(Notes(190)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(180)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(250)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(255)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(260)));
+	top_side_notes.push_back(std::make_unique<Notes>(Notes(265)));
+	right_side_notes.push_back(std::make_unique<Notes>(Notes(300)));
+	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(330)));
+	left_side_notes.push_back(std::make_unique<Notes>(Notes(380)));
 
 
 	//現在フレーム
@@ -96,7 +99,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//ノーツを描画
 		for (auto itr = right_side_notes.begin(); itr != right_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 5;
+				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 2;
 				itr->get()->drawNotes(point_value, CENTER, 2);
 			}
 			else {
@@ -105,7 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		for (auto itr = left_side_notes.begin(); itr != left_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = (current_frame - itr->get()->getAppearFrame()) * 5;
+				point_value = (current_frame - itr->get()->getAppearFrame()) * 2;
 				itr->get()->drawNotes(point_value, CENTER, 3);
 			}
 			else {
@@ -114,7 +117,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		for (auto itr = top_side_notes.begin(); itr != top_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = (current_frame - itr->get()->getAppearFrame()) * 5;
+				point_value = (current_frame - itr->get()->getAppearFrame()) * 2;
 				itr->get()->drawNotes(CENTER, point_value, 0);
 			}
 			else {
@@ -123,14 +126,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		for (auto itr = bottom_side_notes.begin(); itr != bottom_side_notes.end(); itr++) {
 			if (itr->get()->getAppearFrame() < current_frame) {
-				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 5;
+				point_value = 500 - (current_frame - itr->get()->getAppearFrame()) * 2;
 				itr->get()->drawNotes(CENTER, point_value, 1);
 			}
 			else {
 				break;
 			}
 		}
-
 		//右側ノーツ入力系
 		if (!right_side_notes.empty()) {
 			//押してるかどうかの判定を取得する
@@ -152,6 +154,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					break;
 				case 2:
 					judge_output_str = "Good";
+					break;
+				case -2:
+					right_side_notes.erase(right_side_notes.begin());
 					break;
 				default:
 					break;
@@ -176,6 +181,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				case 2:
 					judge_output_str = "Good";
 					break;
+				case -2:
+					left_side_notes.erase(left_side_notes.begin());
+					break;
 				default:
 					break;
 				}
@@ -198,6 +206,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					break;
 				case 2:
 					judge_output_str = "Good";
+					break;
+				case -2:
+					top_side_notes.erase(top_side_notes.begin());
 					break;
 				default:
 					break;
@@ -222,6 +233,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				case 2:
 					judge_output_str = "Good";
 					break;
+				case -2:
+					bottom_side_notes.erase(bottom_side_notes.begin());
+					break;
 				default:
 					break;
 				}
@@ -231,28 +245,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//ノーツが中央に到達していたら、非表示にする。
 		if (!right_side_notes.empty()) {
 			auto first_notes = right_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 120 < current_frame) {
 				right_side_notes.erase(right_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!left_side_notes.empty()) {
 			auto first_notes = left_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 120 < current_frame) {
 				left_side_notes.erase(left_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!top_side_notes.empty()) {
 			auto first_notes = top_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 120 < current_frame) {
 				top_side_notes.erase(top_side_notes.begin());
 				judge_output_str = "miss";
 			}
 		}
 		if (!bottom_side_notes.empty()) {
 			auto first_notes = bottom_side_notes.begin()->get();
-			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 50 < current_frame) {
+			if (!first_notes->getIsHold() && first_notes->getAppearFrame() + 120 < current_frame) {
 				bottom_side_notes.erase(bottom_side_notes.begin());
 				judge_output_str = "miss";
 			}
