@@ -1,3 +1,10 @@
-﻿  Notes.cpp
-C:\Users\admin\Documents\SoundGame\Notes.cpp(126): warning C4554: '&': 演算子の優先順位に問題があります。かっこを使用して優先順位を明確にしてください
+﻿  Main.cpp
+C:\Users\admin\Documents\SoundGame\Main.cpp(103): warning C4244: '=': 'Frame' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\admin\Documents\SoundGame\Main.cpp(112): warning C4244: '=': 'Frame' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\admin\Documents\SoundGame\Main.cpp(121): warning C4244: '=': 'Frame' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\admin\Documents\SoundGame\Main.cpp(130): warning C4244: '=': 'Frame' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\admin\Documents\SoundGame\Main.cpp(140): warning C4244: '引数': 'Frame' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\admin\Documents\SoundGame\Main.cpp(172): warning C4244: '引数': 'Frame' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\admin\Documents\SoundGame\Main.cpp(201): warning C4244: '引数': 'Frame' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\admin\Documents\SoundGame\Main.cpp(230): warning C4244: '引数': 'Frame' から 'int' への変換です。データが失われる可能性があります。
   SoundGame.vcxproj -> C:\Users\admin\Documents\SoundGame\Debug\SoundGame.exe

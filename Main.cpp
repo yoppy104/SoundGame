@@ -54,6 +54,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	bottom_side_notes.push_back(std::make_unique<Notes>(Notes(330)));
 	left_side_notes.push_back(std::make_unique<Notes>(Notes(380)));
 
+	int sound_tap = LoadSoundMem("タンバリン（単打）.mp3");
 
 	//現在フレーム
 	Frame current_frame = 0;
@@ -147,12 +148,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				switch (checkHit)
 				{
 				case 0:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Perfect";
 					break;
 				case 1:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Great";
 					break;
 				case 2:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Good";
 					break;
 				case -2:
@@ -173,12 +177,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				switch (checkHit)
 				{
 				case 0:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Perfect";
 					break;
 				case 1:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Great";
 					break;
 				case 2:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Good";
 					break;
 				case -2:
@@ -199,12 +206,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				switch (checkHit)
 				{
 				case 0:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Perfect";
 					break;
 				case 1:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Great";
 					break;
 				case 2:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Good";
 					break;
 				case -2:
@@ -225,12 +235,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				switch (checkHit)
 				{
 				case 0:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Perfect";
 					break;
 				case 1:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Great";
 					break;
 				case 2:
+					PlaySoundMem(sound_tap, DX_PLAYTYPE_BACK);
 					judge_output_str = "Good";
 					break;
 				case -2:

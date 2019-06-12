@@ -18,7 +18,6 @@ Notes::Notes(int hold_time, int frame):
 }
 
 void Notes::drawNotes(int x, int y, int is_aside) {
-	//todo : 実行時ホールドノーツの描画がおかしくなるバグを修正
 	switch (type_m) {
 	case SINGLE:
 		switch (is_aside) {
