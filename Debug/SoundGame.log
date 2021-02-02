@@ -1,2 +1,3 @@
-﻿  Main.cpp
+﻿  Notes.cpp
+C:\Users\admin\Documents\SoundGame\Notes.cpp(126): warning C4554: '&': 演算子の優先順位に問題があります。かっこを使用して優先順位を明確にしてください
   SoundGame.vcxproj -> C:\Users\admin\Documents\SoundGame\Debug\SoundGame.exe
